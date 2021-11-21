@@ -1,0 +1,45 @@
+<div class="row">
+
+    <div class="col-12">
+        <div class="card bg-light mb-3">
+            <div class="card-header">
+                {{title}}
+            </div>
+        </div>
+        <div class="card-body">
+            <form class="form-horizontal form-material" 
+                id="noteForm" 
+                autocomplete="off"
+                [formGroup]="noteForm"
+                (ngSubmit)="save()">
+
+                <div class="form-group">
+                    <input type="text" 
+                        class="form-control form-control-user"
+                        formControlName="name" 
+                        aria-describedby="nameHelp"
+                        placeholder="Enter note name">
+                </div>
+                <div class="form-group">
+                    <ckeditor 
+                        formControlName="note"  
+                        [config]="ckeConfig" 
+                        debounce="100">
+                    </ckeditor>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <button class="btn btn-success col-12 col-sm-2 ml-2 float-right"
+                                type="submit">
+                                Save
+                        </button>
+                        <button class="btn btn-secondary col-12 col-sm-2 float-right"
+                                (click)="close()">
+                                close
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> 

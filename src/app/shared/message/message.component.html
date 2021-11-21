@@ -1,0 +1,48 @@
+
+<div *ngIf="response.status === ''" style="display:none;">
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-success"> 
+                <span>***</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast alert alert-success" 
+     *ngIf="response.status === 'OK'">
+
+    <div class="col-10 col-sd-11">
+        <span>{{response.msg}}</span>
+    </div>
+    <div class="col-2 col-sd-1">
+        <button 
+            type="button" 
+            class="close" 
+            data-dismiss="alert" 
+            aria-label="Close"> 
+            <span aria-hidden="true">×</span> 
+        </button>
+    </div>
+</div>
+
+<div class="row animated fadeIn fast alert alert-danger"
+     *ngIf="response.status === 'KO'"> 
+    <div class="col-10 col-sd-11">
+        <span *ngIf="(response.msg | typeof) === 'string'">{{response.msg}}</span>
+        <ul *ngIf="(response.msg | typeof) === 'object'">
+            <li *ngFor="let msg of response.msg">
+                <span>{{msg}}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="col-2 col-sd-1">
+        <button 
+            type="button" 
+            class="close" 
+            data-dismiss="alert" 
+            aria-label="Close"> 
+            <span aria-hidden="true">×</span> 
+        </button>
+    </div>
+</div>
