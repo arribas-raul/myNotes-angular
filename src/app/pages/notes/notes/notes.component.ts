@@ -68,7 +68,6 @@ export class NotesComponent implements OnInit {
   private getList(id: number){
     this.noteService.list(id)
     .subscribe((list:Note[]) =>{
-      console.log('list', list);
       this.list.push(...list);
 
     }, err => {

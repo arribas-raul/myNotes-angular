@@ -4,6 +4,7 @@ import { UserService } from '../../services/user.service';
 
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -39,14 +40,13 @@ export class RegisterComponent {
 
     this.userService.register(this.registerForm.value)
       .subscribe(resp=>{
-        //console.log(resp);
         localStorage.removeItem('email');
         //Navegar al dashboard
         this.router.navigateByUrl('/');
 
-      }, (err) => {
+      }, (err: HttpErrorResponse) => {
         console.log('err', err);
-        Swal.fire('Error', err.msg, 'error');
+        Swal.fire('Error', err.error, 'error');
       });      
   }
 

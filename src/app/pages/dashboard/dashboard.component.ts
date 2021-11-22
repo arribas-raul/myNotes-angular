@@ -92,7 +92,6 @@ export class DashboardComponent implements OnInit {
   private getData(){
     this.subjectService.list()
       .subscribe((list:Subject[]) =>{
-        //console.log('list', list);
         this.list.push(...list);
 
       }, err => {

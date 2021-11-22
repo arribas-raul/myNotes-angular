@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
 import Swal from 'sweetalert2';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 declare const gapi: any;
@@ -43,7 +44,6 @@ export class LoginComponent implements OnInit{
   login(){
     this.userService.login(this.loginForm.value)
       .subscribe(resp=>{
-        //console.log(resp);
 
         if(this.loginForm.get('remember')!.value){
           localStorage.setItem('email', this.loginForm.get('email')!.value);
@@ -55,10 +55,11 @@ export class LoginComponent implements OnInit{
         //Navegar al dashboard
         this.router.navigateByUrl('/');
 
-      }, (err) => {
+      }, (err: HttpErrorResponse) => {
         //Si sucede un error
-        Swal.fire('Error', err.msg, 'error');
-        localStorage.setItem('email', this.loginForm.get('email')!.value);
+        console.log('paso por aqui');
+        Swal.fire('Error', err.error, 'error');
+        //localStorage.setItem('email', this.loginForm.get('email')!.value);
 
       }); 
   }

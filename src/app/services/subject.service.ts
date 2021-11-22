@@ -25,20 +25,22 @@ export class SubjectService {
         `${environment.base_url}${this.url}`)
         .pipe(
           map((resp: any) => {
-            const {response, data} = resp;
+            const {msg, data} = resp;
 
-            this.httpService.setResponse(response);
-
-            const count = data.length;
+            this.httpService.setResponse(msg);
 
             let list: Subject[] = [];
 
-            for(let i=0; i<count; i++){
-              list.push(new Subject(
-                data[i].name,
-                data[i].description,
-                data[i].id
-              ));
+            if(data !== undefined){ 
+              const count = data.length;
+
+              for(let i=0; i<count; i++){
+                list.push(new Subject(
+                  data[i].name,
+                  data[i].description,
+                  data[i].id
+                ));
+              }
             }
             
             return list;
@@ -59,10 +61,9 @@ export class SubjectService {
         `${environment.base_url}${this.url}/${id}`)
         .pipe(
           map((resp: any) => {
-            //console.log('resp', resp);
-            const {response, data} = resp;
+            const {msg, data} = resp;
 
-            this.httpService.setResponse(response);
+            this.httpService.setResponse(msg);
 
             const subject = new Subject(
               data.name,
@@ -88,12 +89,10 @@ export class SubjectService {
         `${environment.base_url}${this.url}`, subject)
         .pipe(
           map((resp: any) => {
-            const response = resp.response;
+            const {msg, data} = resp;
             const subject: Subject = resp.data;
 
-            this.httpService.setResponse(response);
-
-            console.log('subject', subject);
+            this.httpService.setResponse(msg, true);
             
             return subject;
           }
@@ -113,8 +112,8 @@ export class SubjectService {
         `${environment.base_url}${this.url}`, subject)
         .pipe(
           map((resp: any) => {
-            const {response, data} = resp;
-            this.httpService.setResponse(response);
+            const {msg, data} = resp;
+            this.httpService.setResponse(msg);
             
             return data;
           }
@@ -134,12 +133,8 @@ export class SubjectService {
         `${environment.base_url}${this.url}/${subject.id}`)
         .pipe(
           map((resp: any) => {
-
-            console.log('resp', resp);
-
-          
-            const {response, data} = resp;
-            this.httpService.setResponse(response);
+            const {msg, data} = resp;
+            this.httpService.setResponse(msg);
             
             return data;
           }

@@ -19,17 +19,22 @@ export class HttpService {
     this.response.msg    = '';
   }
 
-  public setResponse(response: ResponseData, showMsg: boolean = false){
-    console.log('response', response);
-    if(response !== undefined){
+  public setResponse(msg: string, showMsg: boolean = false){
+    //console.log('response', response);
+    /* if(response !== undefined){
       if(response.status === 'OK' || (showMsg && response.status === 'KO')){
         this.response.status = response.status;
         this.response.msg = response.msg;
       }
+    } */
+    if(showMsg){
+      this.response.status = 'OK';
+      this.response.msg = msg;
     }
   }
 
   public setError(error: any, showMsg: boolean = false){
+    //console.log('error', error);
     if(error.code === 401){
       return this.userService.closeSession(true);
     }

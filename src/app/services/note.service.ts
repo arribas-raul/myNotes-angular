@@ -25,10 +25,9 @@ export class NoteService {
         `${environment.base_url}${this.url}/${id}`)
         .pipe(
           map((resp: any) => {
-            console.log('resp', resp);
-            const {response, data} = resp;
+            const {msg, data} = resp;
 
-            this.httpService.setResponse(response);
+            this.httpService.setResponse(msg);
 
             const note = new Note(
               data.id_subject,
@@ -52,28 +51,28 @@ export class NoteService {
     public list(id: number){
       this.httpService.clearMsgServer();
 
-      console.log('id', id);
       return this.http.get<Note[]>(
         `${environment.base_url}${this.url}/list/${id}`)
         .pipe(
           map((resp: any) => {
-            console.log('resp', resp);
-            const {response, data} = resp;
+            const {msg, data} = resp;
 
-            this.httpService.setResponse(response);
-
-            const count = data.length;
+            this.httpService.setResponse(msg);
 
             let list: Note[] = [];
 
-            for(let i=0; i<count; i++){
-              list.push(new Note(
-                data[i].id_subject,
-                data[i].name,
-                data[i].note,
-                data[i].updated_at,
-                data[i].id
-              ));
+            if(data !== undefined){
+              const count = data.length;
+
+              for(let i=0; i<count; i++){
+                list.push(new Note(
+                  data[i].id_subject,
+                  data[i].name,
+                  data[i].note,
+                  data[i].updated_at,
+                  data[i].id
+                ));
+              }
             }
             
             return list;
@@ -88,22 +87,18 @@ export class NoteService {
     }
 
     public create(note: Note){
-      console.log('note', note);
-
       this.httpService.clearMsgServer();
 
       return this.http.post<any>(
         `${environment.base_url}${this.url}`, note)
         .pipe(
           map((resp: any) => {
-            const response = resp.response;
+            const {msg, data} = resp;
 
             note.id = resp.data.id;
             note.date = resp.data.updated_at;
 
-            this.httpService.setResponse(response);
-
-            console.log('note', note);
+            this.httpService.setResponse(msg, true);
             
             return note;
           }
@@ -123,8 +118,8 @@ export class NoteService {
         `${environment.base_url}${this.url}`, note)
         .pipe(
           map((resp: any) => {
-            const {response, data} = resp;
-            this.httpService.setResponse(response, true);
+            const {msg, data} = resp;
+            this.httpService.setResponse(msg, true);
             
             return data;
           }
@@ -144,12 +139,8 @@ export class NoteService {
         `${environment.base_url}${this.url}/${note.id}`)
         .pipe(
           map((resp: any) => {
-
-            console.log('resp', resp);
-
-          
-            const {response, data} = resp;
-            this.httpService.setResponse(response);
+            const {msg, data} = resp;
+            this.httpService.setResponse(msg, true);
             
             return data;
           }

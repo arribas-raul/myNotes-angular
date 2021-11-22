@@ -27,11 +27,9 @@ export class HttpInterceptorService {
   }
   
   errorProcess( _error: HttpErrorResponse) {
-    //console.log('Sucedió un error');
-    //console.log('Registrado en el log file');
-    //console.warn('error', error.error.msg);
+    console.log('_error', _error);
     let error = _error.error;
-    error.code = _error.status;
+    /* error.code = _error.status;
 
     let msg = [];
     
@@ -47,7 +45,7 @@ export class HttpInterceptorService {
       }
 
       error.response.msg = msg;
-    }
+    } */
 
     return throwError(error);
   }

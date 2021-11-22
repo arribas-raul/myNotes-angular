@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { tap, map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { RegisterForm } from '../interfaces/registerform.interface';
@@ -22,8 +22,7 @@ export class UserService {
   constructor(
     private http: HttpClient, 
     private router: Router) { 
-      this._user = new User(
-        '', '', '', 'USER');
+      this._user = new User('', '');
   }
 
   /*Public functions************************/
@@ -33,10 +32,6 @@ export class UserService {
         'Authorization': `Bearer ${this.token}`,
       }
     }
-  } 
-
-  isAdmin(): boolean{
-    return this.user.role === 'ADMIN';
   }
 
   saveLocalStorage(token: string){
@@ -50,11 +45,8 @@ export class UserService {
         const data = resp.user;
 
         this.user = new User(
-          data.name, "", 
-          data.email, 
-          data.role);
-
-        //console.log('this.user', this.user);
+          data.name, 
+          data.email);
       
         return true;
       }),
@@ -67,7 +59,7 @@ export class UserService {
     return this.http.post(`${environment.base_url}auth/register`, formData)
       .pipe(
         map( (resp: any) => {
-          this.saveLocalStorage(resp.data.token);
+          this.saveLocalStorage(resp.token);
       }));
   }
 
@@ -83,13 +75,12 @@ export class UserService {
     return this.http.get(`${environment.base_url}auth/logout`, this.headers)
     .pipe(
       tap( (resp: any) => {
-
         this.closeSession();
       }));
   }
 
   closeSession(auto: boolean = false){
-    this.user = new User("", "", "", 'USER');
+    this.user = new User("", "");
 
     if(auto){
       auto = this.token !== "";
@@ -112,13 +103,5 @@ export class UserService {
 
   get token(): string{
     return localStorage.getItem('token') || '';
-  }
-
-  get role(): 'ADMIN' | 'USER'{
-    return this.user.role;
-  }
-
-  get id(): number{
-    return this.user.id || 0;
   }
 }
