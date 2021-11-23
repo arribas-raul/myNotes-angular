@@ -12,12 +12,12 @@
 <br>
 
 <div class="row">
-    <div class="col-12 col-sm-6 col-md-4 mb-7" 
+    <div class="col-12 col-sm-6 col-md-4 mb-4" 
         role="button"
         (click)="navigateDetailNote()">
 
         <div class="card no-padding-lateral pointer">
-            <div class="card-header my-4">
+            <div class="card-header">
                 <i class="fas fa-plus-circle"></i>
                 Add a new Note
             </div>
@@ -34,14 +34,14 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between green">
                     <div class="col-10"
                         (click)="navigateDetailNote(item.id)">
-                        <h5 class="m-0 font-weight-bold"
-                            role="button">
-                            {{item.name}}
-                        </h5>
                         <h6 class="m-0 font-weight-bold"
                             role="button">
-                            {{item.date}}
+                            {{item.name}}
                         </h6>
+                        <span class="m-0 font-weight-bold" style="font-size: 0.8rem"
+                            role="button">
+                            {{item.date}}
+                        </span>
                     </div>
                     
                     <div class="dropdown no-arrow show">
@@ -66,8 +66,12 @@
                 </div>
                 <div class="card-body"
                      role="button"
-                     (click)="navigateDetailNote(item.id)"
-                     [innerHTML]="(item.note.length>30)? (item.note | slice:0:27)+'...':(item.note)">
+                     (click)="navigateDetailNote(item.id)">
+                    <div class="row">
+                        <div class="col-12" 
+                             [innerHTML]="(item.note.length>30)? (item.note | slice:0:27)+'...':(item.note)">
+                        </div>
+                    </div>
                 </div>
             </div> 
         </div>
