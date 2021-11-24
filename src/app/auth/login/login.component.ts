@@ -30,10 +30,10 @@ export class LoginComponent implements OnInit{
     this.loginForm = this.fb.group(
     {
       email: [
-        localStorage.getItem('email') || 'arribas.test@test.com', 
+        localStorage.getItem('email') || '', 
         [ Validators.required, Validators.email ] ],
 
-      password: ['123456', Validators.required ],
+      password: ['', Validators.required ],
       remember: [false]
     });
   }
